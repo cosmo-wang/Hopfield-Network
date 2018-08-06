@@ -5,22 +5,46 @@ import java.util.Random;
 
 import square_matrix.SquareMatrix;
 
+/**
+ * This class represents a Hopfield network.
+ * @author Cosmo Wang
+ *
+ */
 public class HopfieldNetwork {
 	private SquareMatrix weightMatrix;  // matrix to store weight of each connection between nodes
 	private int size;  // number of nodes in the network
 	
+	// threshold needed for updating nodes in the network
 	public static final int THRESHOLD = 0;
 	
+	/**
+	 * Constructor of the class. Constructs a new Hopfield network.
+	 * @param size number of nodes in the network.
+	 * @requires size is greater that 0
+	 * @throws IllegalArgumentException if size is less than or equal to 0
+	 */
 	public HopfieldNetwork(int size) {
+		if (size <= 0) {
+			throw new IllegalArgumentException();
+		}
 		this.size = size;
 		weightMatrix = new SquareMatrix(size);
 	}
 	
+	/**
+	 * This method trains the network according to a given pattern. Pattern
+	 * is specified in the format of a array of 1s and 0s.
+	 * @requires pattern is not null
+	 *           length of pattern is equal to number of nodes in the network
+	 *           pattern is an array consisting only 1s and 0s
+	 * @param pattern pattern to be trained into the network
+	 */
 	public void train(int[] pattern) {
-		if (pattern.length != size) {
+		if (pattern == null || pattern.length != size || !checkPattern(pattern)) {
 			throw new IllegalArgumentException();
 		}
 		SquareMatrix temp = new SquareMatrix(size);
+		// update the temporary matrix according to the formula
 		for (int i = 1; i < size; i++) {
 			for (int j = i + 1; j <= size; j++) {
 				int curWeight = (2 * pattern[i - 1] - 1) * (2 * pattern[j - 1] - 1);
@@ -28,21 +52,30 @@ public class HopfieldNetwork {
 				temp.setEntry(j, i, curWeight);
 			}
 		}
+		// add the temporary matrix to the weight matrix of the network
 		weightMatrix.add(temp);
 	}
 	
+	/**
+	 * Given a corrupted pattern of a letter or character, recover the pattern
+	 * to an existing pattern stored in the network.
+	 * @requires pattern is not null
+	 *           length of pattern is equal to number of nodes in the network
+	 *           pattern is an array consisting only 1s and 0s
+	 * @param pattern corrupted pattern to be recovered
+	 * @return one of the patterns previously trained into the network in 
+	 *         format of an array
+	 */
 	public int[] recognize(int[] pattern) {
-		Random rand = new Random();
-		int[] output = pattern.clone();
-		if (pattern.length != size) {
+		if (pattern == null || pattern.length != size || !checkPattern(pattern)) {
 			throw new IllegalArgumentException();
 		}
+		Random rand = new Random();
+		int[] output = pattern.clone();
 		// list of integer used to generate semi-random order
 		// of updating each node in the network
 		// all nodes will be updated in one step, with in 
 		// this one step, nodes are chosen in random order to update
-		// this semi-random order avoids bad pseudo-random
-		// generator from favoring one of the nodes
 		ArrayList<Integer> options = new ArrayList<Integer>();
 		// records times that a node doesn't change state after upadating
 		int timeUnchanged = 0;
@@ -79,8 +112,26 @@ public class HopfieldNetwork {
 		return output;
 	}
 	
+	/**
+	 * Returns a string representation of the network, which is the weight matrix.
+	 * @return string representation of the weight matrix of the network
+	 */
 	@Override
 	public String toString() {
 		return weightMatrix.toString();
+	}
+	
+	/**
+	 * Check if a given pattern is valid. A valid pattern contains only 1s and 0s.
+	 * @param pattern pattern to be checked
+	 * @return true if the pattern only contains 1s and 0s, otherwise false
+	 */
+	private boolean checkPattern(int[] pattern) {
+		for (int i = 0; i < pattern.length; i++) {
+			if (pattern[i] != 0 && pattern[i] != 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
