@@ -1,7 +1,5 @@
 package client;
 
-import java.util.Arrays;
-
 import hopfield_network.HopfieldNetwork;
 
 public class HopfieldNetworkClient {
