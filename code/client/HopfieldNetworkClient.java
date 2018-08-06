@@ -1,26 +1,33 @@
 package client;
 
+import java.util.Arrays;
+
 import hopfield_network.HopfieldNetwork;
 
 public class HopfieldNetworkClient {
 
 	public static void main(String[] args) {
-//		int[][] matrix = {{1, 2},{3, 4}};
-//		Matrix m = new Matrix(matrix);
-//		System.out.println(m);
-//		System.out.println(m.getEntry(1, 1));
-//		System.out.println(m.getEntry(2, 2));
-//		m.setEntry(1, 2, 8);
-//		System.out.println(m);
-		
-		HopfieldNetwork hn = new HopfieldNetwork(5);
-		int[] pattern  = {0, 1, 1, 0, 1};
-		System.out.println(hn);
-		hn.train(pattern);
-		System.out.println(hn);
-		int[] pattern2 = {1, 0, 1, 0, 1};
-		hn.train(pattern2);
-		System.out.println(hn);
+		System.out.println();
+	}
+	
+	public static int[] parseToArray(String pattern) {
+		pattern = pattern.replace("\n", "");
+		pattern = pattern.replace("\r", "");
+		int[] output = new int[pattern.length()];
+		for (int i = 0; i < pattern.length(); i++) {
+			output[i] = Integer.parseInt(pattern.charAt(i) + "");
+		}
+		return output;
 	}
 
+	public static String parseToString(int[] pattern, int n) {
+		String output = "";
+		for (int i = 0; i < pattern.length; i = i + n) {
+			for (int j = i; j < i + n; j++) {
+				output += pattern[j];
+			}
+			output += "\n";
+		}
+		return output;
+	}
 }
