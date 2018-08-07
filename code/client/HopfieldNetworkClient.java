@@ -6,6 +6,7 @@ public class HopfieldNetworkClient {
 
 	public static void main(String[] args) {
 		HopfieldNetwork hn = new HopfieldNetwork(70);
+
 		hn.train(parseToArray("1111111111\r\n" + 
 				"1100000011\r\n" + 
 				"1100000011\r\n" + 
@@ -20,37 +21,66 @@ public class HopfieldNetworkClient {
 				"0000110000\r\n" + 
 				"0000110000\r\n" + 
 				"1111111111"));
-		System.out.println("0000110000\r\n" + 
-				"0011110000\r\n" + 
-				"0000110000\r\n" + 
-				"0011000000\r\n" + 
-				"0000110000\r\n" + 
-				"0000110011\r\n" + 
-				"1101111111");
-		System.out.println();
-		System.out.println(parseToString(hn.recognize(parseToArray("0000110000\r\n" + 
-				"0011110000\r\n" + 
-				"0000110000\r\n" + 
-				"0011000000\r\n" + 
-				"0000110000\r\n" + 
-				"0000110011\r\n" + 
-				"1101111111")), 10));
+		hn.train(parseToArray("1111111111\r\n" + 
+				"0000000011\r\n" + 
+				"0000000011\r\n" + 
+				"0000000011\r\n" + 
+				"0000000011\r\n" + 
+				"0000000011\r\n" + 
+				"0000000011"));
 		
-		System.out.println("1111010111\r\n" + 
-				"0000000011\r\n" + 
-				"1100000011\r\n" + 
-				"1100110011\r\n" + 
-				"1100001011\r\n" + 
-				"1101000011\r\n" + 
-				"1101110011");
+		//System.out.println(hn);
+		
+		System.out.println("1100110000\r\n" + 
+				"0011110000\r\n" + 
+				"0000110000\r\n" + 
+				"0000110000\r\n" + 
+				"0000110000\r\n" + 
+				"0000110000\r\n" + 
+				"1111111100");
 		System.out.println();
-		System.out.println(parseToString(hn.recognize(parseToArray("1111010111\r\n" + 
-				"0000000011\r\n" + 
+		System.out.println(parseToString(hn.recognize(parseToArray("1100110000\r\n" + 
+				"0011110000\r\n" + 
+				"0000110000\r\n" + 
+				"0000110000\r\n" + 
+				"0000110000\r\n" + 
+				"0000110000\r\n" + 
+				"1111111100")), 10));
+		
+		System.out.println(
+				"0011111111\r\n" + 
 				"1100000011\r\n" + 
-				"1100110011\r\n" + 
-				"1100001011\r\n" + 
-				"1101000011\r\n" + 
-				"1101110011")), 10));
+				"1100000011\r\n" + 
+				"1100000011\r\n" + 
+				"1100000011\r\n" + 
+				"1100000011\r\n" + 
+				"1111111111");
+		System.out.println();
+		System.out.println(parseToString(hn.recognize(parseToArray("0011111111\r\n" + 
+				"1100000011\r\n" + 
+				"1100000011\r\n" + 
+				"1100000011\r\n" + 
+				"1100000011\r\n" + 
+				"1100000011\r\n" + 
+				"1111111111")), 10));
+		
+		System.out.println(
+				"1111111111\r\n" + 
+				"0000000011\r\n" + 
+				"0000000011\r\n" + 
+				"0000000011\r\n" + 
+				"0001000011\r\n" + 
+				"0000010011\r\n" + 
+				"0000000011");
+		System.out.println();
+		System.out.println(parseToString(hn.recognize(parseToArray(
+				"1111111111\r\n" + 
+						"0000000011\r\n" + 
+						"0000000011\r\n" + 
+						"0000000011\r\n" + 
+						"0001000011\r\n" + 
+						"0000010011\r\n" + 
+						"0000000011")), 10));
 	}
 	
 	public static int[] parseToArray(String pattern) {

@@ -2,6 +2,7 @@ package hopfield_network;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 import square_matrix.SquareMatrix;
 
@@ -13,6 +14,7 @@ import square_matrix.SquareMatrix;
 public class HopfieldNetwork {
 	private SquareMatrix weightMatrix;  // matrix to store weight of each connection between nodes
 	private int size;  // number of nodes in the network
+	private Vector<int[]> patternsTrained;
 	
 	// threshold needed for updating nodes in the network
 	public static final int THRESHOLD = 0;
@@ -29,6 +31,7 @@ public class HopfieldNetwork {
 		}
 		this.size = size;
 		weightMatrix = new SquareMatrix(size);
+		patternsTrained = new Vector<int[]>();
 	}
 	
 	/**
@@ -43,6 +46,18 @@ public class HopfieldNetwork {
 		if (pattern == null || pattern.length != size || !checkPattern(pattern)) {
 			throw new IllegalArgumentException();
 		}
+//		patternsTrained.addElement(pattern);
+//		for (int i = 1; i <= size; i++) {
+//			for (int j = i + 1; j <= size; j++) {
+//				for (int k = 0; k < patternsTrained.size(); k++) {
+//					int[] curPattern = patternsTrained.get(k);
+//					int curWeight = (2 * curPattern[i - 1] - 1) * (2 * curPattern[j - 1] - 1);
+//					weightMatrix.setEntry(i, j, curWeight);
+//					weightMatrix.setEntry(j, i, curWeight);
+//				}
+//			}
+//		}
+		
 		SquareMatrix temp = new SquareMatrix(size);
 		// update the temporary matrix according to the formula
 		for (int i = 1; i < size; i++) {
@@ -82,7 +97,7 @@ public class HopfieldNetwork {
 		// loop to start updating nodes in the network
 		// exits when none of the node changes state
 		// after going all of the nodes three times
-		while (timeUnchanged < size * 3) {
+		while (timeUnchanged < size * 2) {
 			// if options is empty, it means every node has been updated once
 			// reset the list to start another update step
 			if (options.isEmpty()) {
@@ -96,6 +111,7 @@ public class HopfieldNetwork {
 			int checkValue = 0;
 			// evaluate the state of each node in the pattern using the formula
 			for (int i = 0; i < size; i++) {
+				//checkValue += weightMatrix.getEntry(option + 1, i + 1) * output[i];
 				checkValue += weightMatrix.getRow(option + 1)[i] * output[i];
 			}
 			// check against the threshold

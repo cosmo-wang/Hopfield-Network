@@ -10,7 +10,7 @@ public class SquareMatrix {
 	private int size;  // size of the matrix, i.e. number of rows and columns of the matrix
 	
 	// initial default capacity of the matrix
-	public static final int DEFAULT_CAPACITY = 100;
+	public static final int DEFAULT_CAPACITY = 210;
 	
 	/**
 	 * Constructor of the class. Constructs a new square matrix.
