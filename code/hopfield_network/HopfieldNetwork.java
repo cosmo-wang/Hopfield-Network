@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import square_matrix.SquareMatrix;
-
 /**
  * This class represents a Hopfield network.
  * @author Cosmo Wang

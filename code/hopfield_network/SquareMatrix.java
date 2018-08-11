@@ -1,4 +1,4 @@
-package square_matrix;
+package hopfield_network;
 
 /**
  * SquareMatrix class presents a mathematical square matrix.
