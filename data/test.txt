@@ -1,0 +1,35 @@
+Test Summary:
+Number of Nodes: 70
+Number of Patterns: 10
+Noise Level: 5.0%
+Test Duration: 764.04s
+Overall Recognition Accuracy: 99.00%
+
+Test Summary:
+Number of Nodes: 70
+Number of Patterns: 10
+Noise Level: 5.0%
+Test Duration: 1163.64s
+Overall Recognition Accuracy: 98.00%
+
+Test Summary:
+Number of Nodes: 70
+Number of Patterns: 10
+Noise Level: 10.0%
+Test Duration: 862.46s
+Overall Recognition Accuracy: 81.80%
+
+Test Summary:
+Number of Nodes: 70
+Number of Patterns: 10
+Noise Level: 10.0%
+Test Duration: 766.63s
+Overall Recognition Accuracy: 85.20%
+
+Test Summary:
+Number of Nodes: 70
+Number of Patterns: 10
+Noise Level: 10.0%
+Test Duration: 753.46s
+Overall Recognition Accuracy: 86.20%
+

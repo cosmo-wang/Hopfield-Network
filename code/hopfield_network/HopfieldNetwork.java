@@ -18,6 +18,7 @@ public class HopfieldNetwork {
 	// set of weight matrix that stores weight matrix of each pattern
 	private Set<SquareMatrix> weightMatrices;
 	private int size;  // number of nodes in the network
+	private int stringWidth;  // width of string representation of patterns in this network
 	
 	// threshold needed for updating nodes in the network
 	public static final int THRESHOLD = 0;
@@ -28,11 +29,12 @@ public class HopfieldNetwork {
 	 * @requires size is greater that 0
 	 * @throws IllegalArgumentException if size is less than or equal to 0
 	 */
-	public HopfieldNetwork(int size) {
+	public HopfieldNetwork(int size, int stringWidth) {
 		if (size <= 0) {
 			throw new IllegalArgumentException();
 		}
 		this.size = size;
+		this.stringWidth = stringWidth;
 		weightMatrices = new HashSet<SquareMatrix>();
 	}
 	
@@ -78,7 +80,7 @@ public class HopfieldNetwork {
 		// recover for 30 times to get an accurate recovery
 		for (int i = 0; i < 30; i ++) {
 			int[] current = recoverHelper(pattern);
-			String key = parseToString(current, 10);
+			String key = parseToString(current, stringWidth);
 			if (!counts.containsKey(key)) {
 				counts.put(key, 1);
 			} else {
