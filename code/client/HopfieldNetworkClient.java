@@ -1,7 +1,6 @@
 package client;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,11 +15,12 @@ import java.util.Set;
 import hopfield_network.HopfieldNetwork;
 
 public class HopfieldNetworkClient {
-	public static final int TEST_TIMES = 50;
+	public static final int TEST_TIMES = 30;
 	
 	public static void main(String[] args) throws IOException {
-		System.out.println("This program uses Hopfield Network for letter and nunber recognition.");
+		System.out.println("This program uses Hopfield Network for letter and number recognition.");
 		while (true) {
+			@SuppressWarnings("resource")
 			Scanner console = new Scanner(System.in);
 			Map<String, String> data = null;
 			System.out.println("Enter \"start\" to start the program. Any other key to quit.");
@@ -30,19 +30,18 @@ public class HopfieldNetworkClient {
 				System.out.println("\tnumbers - file contains numbers"
 						+ "\n\tletters - file contains letters"
 						+ "\n\tcustom - for customized file");
-				boolean invalidCommand = true;
-				while (invalidCommand) {
+				while (true) {
 					String command = console.nextLine();
 					if (command.equals("numbers")) {
 						data = parseFile("data/Numbers.txt");
-						invalidCommand = false;
+						break;
 					} else if (command.equals("letters")) {
 						data = parseFile("data/Letters.txt");
-						invalidCommand = false;
+						break;
 					} else if (command.equals("custom")) {
 						String fileName = console.nextLine();
 						data = parseFile("data/" + fileName + ".txt");
-						invalidCommand = false;
+						break;
 					} else {
 						System.out.println("Unknown Command. Please try again.");
 					}
@@ -53,11 +52,11 @@ public class HopfieldNetworkClient {
 				int width = Integer.parseInt(tokens[1]);
 				HopfieldNetwork hn = new HopfieldNetwork(size, width);
 				System.out.println("The network has been constructed.");
-				invalidCommand = true;
-				while (invalidCommand) {
+				while (true) {
 					System.out.println("Please specify the next command:");
+					System.out.println("(Test should NOT be performed before training!)");
 					System.out.println("\ttrain - train the network on all patterns"
-							+ "\n\ttest - test pattern recognition"
+							+ "\n\ttest - run accuracy test for pattern recognition"
 							+ "\n\tcustom - customized oprations"
 							+ "\n\tquit - quit or choose different pattern file");
 					String command = console.nextLine();
@@ -69,9 +68,48 @@ public class HopfieldNetworkClient {
 					} else if (command.equals("test")) {
 						accuracyTest(hn, data, size);
 					} else if (command.equals("custom")) {
-						
+						hn.clear();
+						while (true) {
+							System.out.println("Pattern to be trained in the data file: ");
+							for (String key: data.keySet()) {
+								System.out.print(key + "\t");
+							}
+							System.out.println();
+							System.out.println("Please enter the pattern you want to train on: ");
+							String pattern = data.get(console.nextLine());
+							hn.train(parseToArray(pattern));
+							System.out.println("The trained pattern is: ");
+							System.out.println(pattern);
+							System.out.println("Do you want to train more patterns? (y for yes, any other key for no)");
+							String answer = console.nextLine();
+							if (!answer.equals("y")) {
+								break;
+							}
+						}
+						while (true) {
+							System.out.println("Please enter the pattern you want to add noise on: ");
+							String key = console.nextLine();
+							System.out.println("Please specify the percentage of noise you want to add on:");
+							double noiseLevel = Double.parseDouble(console.nextLine());
+							String noised = addNoise(data.get(key), size, noiseLevel);
+							System.out.println("The noised pattern is: ");
+							System.out.println(noised);
+							System.out.println("Do you want to try to recover the pattern? "
+									+ "\n(y for yes, any other key for no)");
+							String answer = console.nextLine();
+							if (answer.equals("y")) {
+								System.out.println("The recovered pattern is: ");
+								System.out.println(hn.recover(parseToArray(noised)));
+							}
+							System.out.println("Do you want to try other pattern or noise level? "
+									+ "\n(y for yes, any other key for no)");
+							if (!console.nextLine().equals("y")) {
+								break;
+							}
+						}
 					} else if (command.equals("quit")) {
-						invalidCommand = false;
+						hn = null;
+						break;
 					} else {
 						System.out.println("Unknown Command: " + command + ". Please try again.");
 					}
@@ -84,9 +122,16 @@ public class HopfieldNetworkClient {
 		}
 	}
 	
+	/**
+	 * Performs accuracy test on a Hopfield Network.
+	 * @param hn network to be tested on
+	 * @param data maps abstract value of a pattern to its string representation
+	 * @param size size of the network
+	 * @throws IOException if the file is not found
+	 */
 	public static void accuracyTest(HopfieldNetwork hn, Map<String, String> data, int size) throws IOException {
+		@SuppressWarnings("resource")
 		Scanner console = new Scanner(System.in);
-		PrintWriter writer = new PrintWriter(new FileWriter("./data/test.txt", true));
 		System.out.println("Recognition accuracy test will be performed on the network.");
 		System.out.println("For each trained pattern in the network, certern percentage of noise"
 				+ " will be added to the pattern.");
@@ -97,7 +142,7 @@ public class HopfieldNetworkClient {
 		System.out.println("Test may take seconds to minutes to complete.");
 		System.out.println("Please specify the percentage of noise you want to test on:");
 		System.out.println("(0.0 < percentage < 100.0)");
-		double noiseLevel = console.nextDouble();
+		double noiseLevel = Double.parseDouble(console.nextLine());
 		double totalAccuracy = 0.0;
 		Date d = new Date();
 		for (String key: data.keySet()) {
@@ -116,13 +161,33 @@ public class HopfieldNetworkClient {
 		}
 		double time = (new Date()).getTime() - d.getTime();
 		double accuracy = totalAccuracy / data.size();
-		writer.println("Test Summary:");
-		writer.println("Number of Nodes: " + size);
-		writer.println("Number of Patterns: " + data.size());
-		writer.println("Noise Level: " + noiseLevel + "%");
-		writer.println("Test Duration: " + time / 100.0 + "s");
-		writer.println("Overall Recognition Accuracy: " + String.format("%.2f", accuracy * 100.0) + "%\n");
-		writer.close();
+		System.out.println("Do you want to print the test result to a seperate file?"
+				+ "\n(y for yes, any other key for no)");
+		System.out.println("If not, the result will be printed to the console.");
+		String answer = console.nextLine();
+		if (answer.equals("y")) {
+			System.out.println("Please enter the name of the file you want to print the result: ");
+			System.out.println("If file already exists, result will be appended to the file.");
+			String filename = console.nextLine();
+			PrintWriter writer = new PrintWriter(new FileWriter("./data/" + filename + ".txt", true));
+			writer.println("Test Summary:");
+			writer.println("Number of Nodes: " + size);
+			writer.println("Number of Patterns: " + data.size());
+			writer.println("Noise Level: " + noiseLevel + "%");
+			writer.println("Repetition Times: " + TEST_TIMES);
+			writer.println("Test Duration: " + time / 100.0 + "s");
+			writer.println("Overall Recognition Accuracy: " + String.format("%.2f", accuracy * 100.0) + "%\n");
+			writer.close();
+		} else {
+			System.out.println("Test Summary:");
+			System.out.println("Number of Nodes: " + size);
+			System.out.println("Number of Patterns: " + data.size());
+			System.out.println("Noise Level: " + noiseLevel + "%");
+			System.out.println("Repetition Times: " + TEST_TIMES);
+			System.out.println("Test Duration: " + time / 100.0 + "s");
+			System.out.println("Overall Recognition Accuracy: " + String.format("%.2f", accuracy * 100.0) + "%\n");
+		}
+
 	}
 	
 	/**

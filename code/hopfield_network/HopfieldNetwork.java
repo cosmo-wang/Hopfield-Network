@@ -174,6 +174,13 @@ public class HopfieldNetwork {
 	}
 	
 	/**
+	 * Clears the weight matrices to obtain a fresh empty network.
+	 */
+	public void clear() {
+		weightMatrices.clear();
+	}
+	
+	/**
 	 * Check if a given pattern is valid. A valid pattern contains only 1s and 0s.
 	 * @param pattern pattern to be checked
 	 * @return true if the pattern only contains 1s and 0s, otherwise false
