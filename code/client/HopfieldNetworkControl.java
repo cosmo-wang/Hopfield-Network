@@ -14,7 +14,7 @@ import java.util.Set;
 
 import hopfield_network.HopfieldNetwork;
 
-public class HopfieldNetworkClient {
+public class HopfieldNetworkControl {
 	public static final int TEST_TIMES = 30;
 	
 	public static void main(String[] args) throws IOException {
@@ -39,6 +39,7 @@ public class HopfieldNetworkClient {
 						data = parseFile("data/Letters.txt");
 						break;
 					} else if (command.equals("custom")) {
+						System.out.println("Please enter name of the file you want to use: ");
 						String fileName = console.nextLine();
 						data = parseFile("data/" + fileName + ".txt");
 						break;
@@ -62,6 +63,7 @@ public class HopfieldNetworkClient {
 					String command = console.nextLine();
 					if (command.equals("train")) {
 						for (String key: data.keySet()) {
+							System.out.println(data.get(key));
 							hn.train(parseToArray(data.get(key)));
 						}
 						System.out.println("The network has been trained on all existing patterns.");
@@ -71,11 +73,16 @@ public class HopfieldNetworkClient {
 						hn.clear();
 						while (true) {
 							System.out.println("Pattern to be trained in the data file: ");
+							int count = 0;
 							for (String key: data.keySet()) {
+								count++;
 								System.out.print(key + "\t");
+								if (count % 5 == 0) {
+									System.out.println();
+								}
 							}
 							System.out.println();
-							System.out.println("Please enter the pattern you want to train on: ");
+							System.out.println("Please specify the pattern you want to train on: ");
 							String pattern = data.get(console.nextLine());
 							hn.train(parseToArray(pattern));
 							System.out.println("The trained pattern is: ");
