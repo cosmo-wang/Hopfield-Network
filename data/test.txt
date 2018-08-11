@@ -33,3 +33,10 @@ Noise Level: 10.0%
 Test Duration: 753.46s
 Overall Recognition Accuracy: 86.20%
 
+Test Summary:
+Number of Nodes: 70
+Number of Patterns: 10
+Noise Level: 10.0%
+Test Duration: 777.83s
+Overall Recognition Accuracy: 83.40%
+
