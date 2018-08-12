@@ -1,4 +1,2 @@
-# Hopfield-Network
+# Hopfield-Network#
 
-## Teletubiees
-## Tombiliboo Eee
