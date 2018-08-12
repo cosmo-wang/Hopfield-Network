@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -200,7 +199,6 @@ public class HopfieldNetworkControl {
 		System.out.println("Please specify time of repetitions for the test:");
 		int testTimes = Integer.parseInt(console.nextLine());
 		double totalAccuracy = 0.0;
-		Date d = new Date();
 		for (String key: data.keySet()) {
 			System.out.println("Testing recognition on " + key);
 			String noised = addNoise(data.get(key), size, noiseLevel);
@@ -215,15 +213,13 @@ public class HopfieldNetworkControl {
 			System.out.println("Accuracy: " + correct + "/" + testTimes + "\n");
 			totalAccuracy += correct / (double)testTimes;
 		}
-		double time = (new Date()).getTime() - d.getTime();
 		double accuracy = totalAccuracy / data.size();
 		String summary = "Test Summary:\n"
 				+ "Number of Nodes: " + size
 				+ "\nNumber of Patterns: " + data.size()
 				+ "\nNoise Level: " + noiseLevel + "%\n"
 				+ "Repetition Times: " + testTimes
-				+ "\nTest Duration: " + time / 100.0 + "s\n"
-				+ "Overall Recognition Accuracy: " + String.format("%.2f", accuracy * 100.0) + "%\n";
+				+ "\nOverall Recognition Accuracy: " + String.format("%.2f", accuracy * 100.0) + "%\n";
 		System.out.println("Do you want to print the test result to a seperate file?"
 				+ "\n(y for yes, any other key for no)");
 		System.out.println("The result will also be printed to the console.");
