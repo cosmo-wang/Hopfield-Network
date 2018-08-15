@@ -93,7 +93,7 @@ public class HopfieldNetworkControl {
 							}
 						}
 						while (true) {
-							System.out.println("Please enter the pattern you want to add noise on: ");
+							System.out.println("Please enter the pattern you want to add noise on:");
 							String key = console.nextLine();
 							System.out.println("Please specify the percentage of noise you want to add on:");
 							double noiseLevel = Double.parseDouble(console.nextLine());
