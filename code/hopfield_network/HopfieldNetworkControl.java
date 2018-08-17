@@ -23,7 +23,7 @@ public class HopfieldNetworkControl {
 			System.out.println("Enter \"start\" to start the program. Any other key to quit.");
 			String operation = console.nextLine();
 			if (operation.equals("start")) {
-				System.out.println("Please specify the data file you want to use:");
+				System.out.println("Please specify the data file you want to use: ");
 				System.out.println("\tnumbers - file contains numbers"
 						+ "\n\tletters - file contains letters"
 						+ "\n\tcustom - for customized file");
