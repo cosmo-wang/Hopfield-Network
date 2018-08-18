@@ -137,7 +137,7 @@ public class HopfieldNetworkControl {
 		@SuppressWarnings("resource")
 		Scanner console = new Scanner(System.in);
 		hn.clear();
-		Map<String, String> data = parseFile("data/Letters.txt");
+		Map<String, String> data = parseFile("../data/Letters.txt");
 		data.remove("format");
 		for (String key: data.keySet()) {
 			hn.train(parseToArray(data.get(key)));
@@ -183,6 +183,7 @@ public class HopfieldNetworkControl {
 	 * @throws IOException if the file is not found
 	 */
 	public static void accuracyTest(HopfieldNetwork hn, Map<String, String> data, int size) throws IOException {
+		System.out.println(data);
 		@SuppressWarnings("resource")
 		Scanner console = new Scanner(System.in);
 		System.out.println("Recognition accuracy test will be performed on the network.");
