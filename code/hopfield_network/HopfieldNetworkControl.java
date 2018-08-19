@@ -155,14 +155,21 @@ public class HopfieldNetworkControl {
 			System.out.println("Recovery started.");
 			String result = "";
 			for (int i = 0; i < word.length(); i++) {
-				System.out.println("Recovering pattern: ");
-				String pattern = data.get(word.charAt(i) + "");
+				String curLetter = word.charAt(i) + "";
+				System.out.println("Current letter: " + curLetter);
+				System.out.println("Original pattern: ");
+				String pattern = data.get(curLetter);
 				System.out.println(pattern.trim() + "\n");
 				String noised = addNoise(pattern, size, noiseLevel);
+				System.out.println("Noised pattern: ");
+				System.out.println(noised.trim() + "\n");
 				System.out.println("Recovered pattern: ");
 				String recovered = hn.recover(parseToArray(noised));
 				System.out.println(recovered.trim() + "\n");
 				String recoveredKey = getKey(data, recovered + "\n");
+				if (recoveredKey == null) {
+					recoveredKey = getKey(data,invertMatrix(recovered.trim()) + "\n");
+				}
 				result += recoveredKey;
 			}
 			System.out.println("Result:");
@@ -173,6 +180,28 @@ public class HopfieldNetworkControl {
 				break;
 			}
 		}
+	}
+	
+	
+	/**
+	 * Invert a string representation of a matrix with 1s and 0s 
+	 * by replacing all 1s with 0s and 0s with 1s.
+	 * @param pattern the matrix to be inverted
+	 * @return inverted matrix with 1s replaced by 0s
+	 *         and 0s replaced by 1s
+	 */
+	public static String invertMatrix(String pattern) {
+		String result = "";
+		for (int i = 0; i < pattern.length(); i++) {
+			if (pattern.charAt(i) == '1') {
+				result += "0";
+			} else if (pattern.charAt(i) == '0') {
+				result += "1";
+			} else {
+				result += pattern.charAt(i);
+			}
+		}
+		return result;
 	}
 	
 	/**
