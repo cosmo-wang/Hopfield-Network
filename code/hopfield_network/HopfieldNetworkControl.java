@@ -71,7 +71,7 @@ public class HopfieldNetworkControl {
 					} else if (command.equals("custom")) {
 						hn.clear();
 						while (true) {
-							System.out.println("Pattern to be trained in the data file: ");
+							System.out.println("Pattern to be trained in the data file:");
 							int count = 0;
 							for (String key: data.keySet()) {
 								count++;
