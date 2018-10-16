@@ -1,0 +1,7 @@
+Test Summary:
+Number of Nodes: 70
+Number of Patterns: 26
+Noise Level: 5.0%
+Repetition Times: 10
+Overall Recognition Accuracy: 100.00%
+

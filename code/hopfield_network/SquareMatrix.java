@@ -156,6 +156,7 @@ public class SquareMatrix {
 	
 	/**
 	 * Returns a hash code for the matrix.
+	 * 
 	 * @return hash code for the matrix
 	 */
 	@Override
