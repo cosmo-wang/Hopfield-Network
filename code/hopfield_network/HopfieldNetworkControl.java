@@ -30,15 +30,15 @@ public class HopfieldNetworkControl {
 				while (true) {
 					String command = console.nextLine();
 					if (command.equals("numbers")) {
-						data = parseFile("../data/Numbers.txt");
+						data = parseFile("data/Numbers.txt");
 						break;
 					} else if (command.equals("letters")) {
-						data = parseFile("../data/Letters.txt");
+						data = parseFile("data/Letters.txt");
 						break;
 					} else if (command.equals("custom")) {
 						System.out.println("Please enter name of the file you want to use: ");
 						String fileName = console.nextLine();
-						data = parseFile("../data/" + fileName + ".txt");
+						data = parseFile("data/" + fileName + ".txt");
 						break;
 					} else {
 						System.out.println("Unknown Command. Please try again.");
@@ -137,7 +137,7 @@ public class HopfieldNetworkControl {
 		@SuppressWarnings("resource")
 		Scanner console = new Scanner(System.in);
 		hn.clear();
-		Map<String, String> data = parseFile("../data/Letters.txt");
+		Map<String, String> data = parseFile("data/Letters.txt");
 		data.remove("format");
 		for (String key: data.keySet()) {
 			hn.train(parseToArray(data.get(key)));
