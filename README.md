@@ -22,4 +22,4 @@ Be aware that malformed file will cause the program to crash!
 ## Test ##
 In the test folder, there is a test.txt file containing pre-run test that I generated when doing accuracy testing. Any file created during accuracy testing will be stored in this folder.
 
-#### That all! Have fun playing! ####
+#### That's all! Have fun playing! ####
